@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"reflect"
+	"runtime/debug"
+	"strings"
 	"sync"
 )
 
@@ -69,6 +71,9 @@ func (this *Supervisor) StartTask(taskid Pid) error {
 		defer func() {
 			if r := recover(); r != nil {
 				log.Printf("Recovering task %d from %v\n", taskid, r)
+				strace := debug.Stack()
+				lines := strings.Split(string(strace), "\n")[5:]
+				fmt.Print(strings.Join(lines, "\n"))
 				this.StartTask(taskid)
 			}
 		}()

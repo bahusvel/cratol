@@ -25,3 +25,7 @@ func TestRestart(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestCrash(t *testing.T) {
+	Crashable("Hello")
+}
